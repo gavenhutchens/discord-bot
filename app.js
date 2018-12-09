@@ -54,5 +54,9 @@ client.on("guildMemberAdd", (member) => {
   " My commands are !chess, !pubg, !erangel, !miramar, and !sanhok");
 });
 
+
+client.on("error", (e) => console.error(e));
+
+
 client.login(config.token);
 process.on("unhandledRejection", console.error);
