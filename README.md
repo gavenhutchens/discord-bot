@@ -1,5 +1,37 @@
-This repository contains a discord bot that I use in a discord server I run with my friends.
-As of now, I run it using node.js on the windows powershell.
-In the near future, I plan to purchase a raspberry pi to use as a server for the bot to run on.
-This way my computer doesn't have to be on for my bot to be online.
-To run: node app.js
+# discord-bot
+This is a bot that I've been working on in my spare time. I'm currently in the process of updating
+it to include a wide variety of functionalities.
+
+
+## Necessary installations
+
+Install nodejs:
+
+```
+sudo apt install nodejs
+```
+Install the package manager:
+
+```
+sudo apt install npm
+```
+
+ffmpeg binaries, these are needed to connect to a voice channel
+```
+sudo apt install ffmpeg
+```
+
+### Other prereqs
+
+Make sure when registering a bot with discord that you 
+obtain a token value. This value should be stored in a
+secure location, and **never** be put on github or any
+other public location.
+
+
+
+### Running the bot:
+
+```
+node app.js
+```
