@@ -32,6 +32,12 @@ client.on("message", (message) => {
     message.channel.send("Commands are as follows:");
   }
 
+  if(command === "join") {
+    message.member.voiceChannel.join();	
+
+
+  }
+
 
 	
 });
