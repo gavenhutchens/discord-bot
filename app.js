@@ -4,11 +4,12 @@ const config = require("./config.json");
 const request = require('request');
 
 var streamtype, streamurl, streamername, mychannel;
+var flag = 0;
 
 
 const options = {
 
-	url: 'https://api.twitch.tv/kraken/streams/loltyler1',
+	url: 'https://api.twitch.tv/kraken/streams/skeptirgg',
 	method: 'GET',
 	headers: {
 	  'Client-ID': config.twitchid
@@ -43,10 +44,17 @@ async function polltwitchapi() {
 
 		streamtype = "offline";
 		console.log(streamtype);
+		flag = 0;	
 
 		};
 
 	}); 
+
+
+	if(streamtype === "live" && (flag === 0)) {
+	client.channels.get(config.channelid).send(streamurl);
+	flag = 1;	
+  	}
 
 
 	await sleep(3000); 
@@ -69,12 +77,7 @@ client.on("message", (message) => {
   //shift removes one element from the args array and returns it
   const command = args.shift().toLowerCase();
 
-
-
-  if(streamtype === "live") {
-	client.channels.get(config.channelid).send("seg");
-  }
-
+  
   if (!message.content.startsWith(config.prefix) || message.author.bot) {
    return;
   }
