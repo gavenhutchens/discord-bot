@@ -1,6 +1,5 @@
 # discord-bot
-This is a bot that I've been working on in my spare time. I'm currently in the process of updating
-it to include a wide variety of functionalities.
+This is a bot that I've been working on in my spare time. It currently runs off a raspberry pi. 
 
 
 ## Necessary installations
@@ -22,6 +21,11 @@ sudo apt install ffmpeg
 ```
 
 ### Other prereqs
+
+In order to clone and run this code, it is necessary to 
+your own config.json file. This file should contain your
+bot token, your command prefix, as well as other id's 
+such as a twitch id or a channel id.
 
 Make sure when registering a bot with discord that you 
 obtain a token value. This value should be stored in a
