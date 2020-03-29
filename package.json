@@ -1,7 +1,7 @@
 {
   "name": "discordbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a bot that I've been working on in my spare time. It currently runs off a raspberry pi.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,16 @@
   "author": "Gaven Hutchens <gavenhutchens@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.4.2"
-  }
+    "discord.js": "^11.5.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavenhutchens/discord-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gavenhutchens/discord-bot/issues"
+  },
+  "homepage": "https://github.com/gavenhutchens/discord-bot#readme"
 }
