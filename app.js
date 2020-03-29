@@ -4,17 +4,19 @@ const config = require("./config.json");
 const request = require('request');
 
 var streamtype, streamurl, streamername, mychannel;
-var flag = 0;
-
+var isCurrentLive = false;
 
 const options = {
 
-	url: 'https://api.twitch.tv/kraken/streams/skeptirgg',
+	//57199432 = sam user id
+	//rachel user id = 241165842
+	//imaqtpie user id = 24991333 
+	url: 'https://api.twitch.tv/helix/streams/?user_id=241165842',
 	method: 'GET',
 	headers: {
 	  'Client-ID': config.twitchid
 	}
-};
+}; 
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
@@ -26,38 +28,42 @@ async function polltwitchapi() {
 
 	request(options, function(err, res, body) {
 		
-		var obj = JSON.parse(body);
-		console.log(obj);
+		var jsonObject = JSON.parse(body);
+		console.log(jsonObject);
 
 		try {
-		streamtype = obj.stream.stream_type;
-		console.log(streamtype);
+		streamtype = jsonObject.data[0].type;
+		console.log("Streamtype is: " + streamtype);
 
-		streamurl = obj.stream.channel.url;
-		console.log(streamurl);
+		streamurl = jsonObject.data[0].user_name;
+		console.log("StreamURL is: " + "https://twitch.tv/" + streamurl);
 
-		streamername = obj.stream.channel.display_name;
-		console.log(streamername);
-		
+		streamurl = "https://twitch.tv/" + streamurl;
+
+		//client.channels.get(config.channelid).send(streamurl);
 
 		} catch (error) {
 
-		streamtype = "offline";
-		console.log(streamtype);
-		flag = 0;	
-
+		console.log("catching error, channel not live");
 		};
 
 	}); 
 
 
-	if(streamtype === "live" && (flag === 0)) {
+	if(streamtype === "live" && isCurrentLive === false) {
+	console.log("inside live if");
 	client.channels.get(config.channelid).send(streamurl);
-	flag = 1;	
+	client.channels.get(config.channelid).send("test mail you are live <@653678313822486551>");
+	isCurrentLive = true;
   	}
+ 
+	if(streamtype === "false") {
+	console.log("inside false if");
+	isCurrentLive = false;
+	}
 
 
-	await sleep(3000); 
+	await sleep(50000); 
 	polltwitchapi(); //recurse
 }
 
@@ -65,7 +71,7 @@ async function polltwitchapi() {
 
 
 client.on("ready", () => {
-  console.log("Gaven_Bot is online!"); 
+  console.log("RachelBot is online!"); 
   polltwitchapi();
 
 });
@@ -98,7 +104,11 @@ client.on("message", (message) => {
   if(command === "leave") {
     message.member.voiceChannel.leave();
   }
-	
+
+  if(command === "stream") {
+	  message.channel.send("https://twitch.tv/rachelae");
+  }
+
 });
 
 client.on("guildMemberAdd", (member) => {
