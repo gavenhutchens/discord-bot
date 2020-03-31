@@ -30,6 +30,9 @@ async function polltwitchapi() {
 		
 		var jsonObject = JSON.parse(body);
 		console.log(jsonObject);
+		console.log("current timestamp in twitch request function is:");
+		var date = new Date(Date.now());
+		console.log(date.toString());
 
 		try {
 		streamtype = jsonObject.data[0].type;
@@ -54,6 +57,7 @@ async function polltwitchapi() {
 	console.log("inside live if");
 	client.channels.get(config.channelid).send(streamurl);
 	client.channels.get(config.channelid).send("test mail you are live <@653678313822486551>");
+	console.log("sent live mail to disc");	
 	isCurrentLive = true;
   	}
  
@@ -63,7 +67,7 @@ async function polltwitchapi() {
 	}
 
 
-	await sleep(50000); 
+	await sleep(10000); 
 	polltwitchapi(); //recurse
 }
 
