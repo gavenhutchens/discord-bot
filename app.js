@@ -22,47 +22,31 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 async function polltwitchapi() {
-
 
   request(options, function(err, res, body) {
 
-    var jsonObject = JSON.parse(body);
-    console.log(jsonObject);
-    console.log("current timestamp in twitch request function is:");
-    var date = new Date(Date.now());
-    console.log(date.toString());
-
     try {
+		  console.log(new Date(Date.now()).toString());
+      var jsonObject = JSON.parse(body);
+      //console.log(JSON.toString(jsonObject)); for debugging purposes
+
       streamtype = jsonObject.data[0].type;
-      console.log("Streamtype is: " + streamtype);
-
-      streamurl = jsonObject.data[0].user_name;
-      console.log("StreamURL is: " + "https://twitch.tv/" + streamurl);
-
-      streamurl = "https://twitch.tv/" + streamurl;
-
-      //client.channels.get(config.channelid).send(streamurl);
+      streamurl = "https://twitch.tv/" + jsonObject.data[0].user_name;
 
     } catch (error) {
-
       console.log("catching error, channel not live");
     };
 
   });
 
-
   if (streamtype === "live" && isCurrentLive === false) {
-    console.log("inside live if");
     client.channels.get(config.channelid).send(streamurl);
-    client.channels.get(config.channelid).send("test mail you are live <@653678313822486551>");
-    console.log("sent live mail to disc");
+  //  client.channels.get(config.channelid).send(" you are live <@653678313822486551>");
     isCurrentLive = true;
   }
 
   if (streamtype === "false") {
-    console.log("inside false if");
     isCurrentLive = false;
   }
 
@@ -70,9 +54,6 @@ async function polltwitchapi() {
   await sleep(10000);
   polltwitchapi(); //recurse
 }
-
-
-
 
 client.on("ready", () => {
   console.log("RachelBot is online!");
@@ -87,7 +68,6 @@ client.on("message", (message) => {
   //shift removes one element from the args array and returns it
   const command = args.shift().toLowerCase();
 
-
   if (!message.content.startsWith(config.prefix) || message.author.bot) {
     return;
   }
@@ -96,33 +76,13 @@ client.on("message", (message) => {
     message.channel.send("find a good duo partner ^_^");
   }
 
-  if (command === "help") {
-    message.channel.send("Commands are as follows:\n!help\n!join\n" +
-      "!leave\n");
-  }
-
-  if (command === "join") {
-    message.member.voiceChannel.join();
-  }
-
-  if (command === "leave") {
-    message.member.voiceChannel.leave();
-  }
-
-  if (command === "stream") {
-    message.channel.send("https://twitch.tv/rachelae");
-  }
-
 });
 
 client.on("guildMemberAdd", (member) => {
 
-  member.send("Welcome to Green Hills! Send Gaven a message if you need anything." +
-    " Be sure to check out gavenhutchens.com for more info about my creator!");
+  member.send("welcome to DAO MEI GAMING");
 });
 
-
 client.on("error", (e) => console.error(e));
-
 client.login(config.token);
 process.on("unhandledRejection", console.error);
